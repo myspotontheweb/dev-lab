@@ -14,7 +14,7 @@ spec:
       - path: workloads/**/dev
   template:
     metadata:
-      name: {{path[1]}}
+      name: '{{path[1]}}'
     spec:
       project: "dev"
       source:
