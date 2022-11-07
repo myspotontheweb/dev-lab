@@ -53,3 +53,13 @@ azure-aks-creds:
 azure-clean:
 	az group delete --name $(AZURE_RESOURCE_GROUP) --yes --no-wait
 
+# ----------------------------
+# Provision a minikube cluster
+# ----------------------------
+
+minikube:
+	minikube start --driver kvm2
+
+minikube-clean:
+	minikube delete
+
