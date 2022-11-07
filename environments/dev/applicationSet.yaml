@@ -1,0 +1,32 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/myspotontheweb/gitops-platform-demo.git
+      revision: HEAD
+      directories:
+      - path: workloads/**/all
+      - path: workloads/**/dev
+  template:
+    metadata:
+      name: platform-{{path[1]}}
+    spec:
+      project: "dev"
+      source:
+        repoURL: https://github.com/myspotontheweb/dev-lab.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path[1]}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
