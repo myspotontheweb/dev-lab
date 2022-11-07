@@ -2,12 +2,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: platform
+  name: dev-apps
   namespace: argocd
 spec:
   generators:
   - git:
-      repoURL: https://github.com/myspotontheweb/gitops-platform-demo.git
+      repoURL: https://github.com/myspotontheweb/dev-lab.git
       revision: HEAD
       directories:
       - path: workloads/**/all
