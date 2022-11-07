@@ -15,6 +15,7 @@ Notes:
 
 Assume the following tools are installed
 
+* make
 * az
 * kubectl
 * argocd
