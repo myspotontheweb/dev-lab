@@ -37,21 +37,20 @@ argocd-boot:
 
 azure: azure-cluster azure-aks-creds
 
-azure-setup:
-	az account set --subscription $(AZURE_SUBSCRIPTION)
-	az group create --name $(AZURE_RESOURCE_GROUP) --location $(AZURE_REGION)
+azure-group:
+	az group create --name $(AZURE_RESOURCE_GROUP) --location $(AZURE_REGION) --subscription $(AZURE_SUBSCRIPTION)
 
-azure-registry: azure-setup
-	az acr create --resource-group $(AZURE_RESOURCE_GROUP) --name $(NAME) --sku Basic
+azure-registry: azure-group
+	az acr create --resource-group $(AZURE_RESOURCE_GROUP) --name $(NAME) --sku Basic --subscription $(AZURE_SUBSCRIPTION)
 
 azure-cluster: azure-registry
-	az aks create --resource-group $(AZURE_RESOURCE_GROUP) --name $(AZURE_CLUSTER) --node-count $(AZURE_NODES) --attach-acr $(NAME)
+	az aks create --resource-group $(AZURE_RESOURCE_GROUP) --name $(AZURE_CLUSTER) --node-count $(AZURE_NODES) --attach-acr $(NAME) --subscription $(AZURE_SUBSCRIPTION)
 
 azure-aks-creds:
-	az aks get-credentials --resource-group $(AZURE_RESOURCE_GROUP) --name $(NAME) --overwrite-existing --admin
+	az aks get-credentials --resource-group $(AZURE_RESOURCE_GROUP) --name $(NAME) --overwrite-existing --admin --subscription $(AZURE_SUBSCRIPTION)
 
 azure-clean:
-	az group delete --name $(AZURE_RESOURCE_GROUP) --yes --no-wait
+	az group delete --name $(AZURE_RESOURCE_GROUP) --yes --no-wait --subscription $(AZURE_SUBSCRIPTION)
 
 # ----------------------------
 # Provision a minikube cluster
